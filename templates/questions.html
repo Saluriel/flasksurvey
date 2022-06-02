@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{%block title%}Survey Start{%endblock%}
+
+{% block content %}
+
+<h1>Question {{next}}</h1>
+<p>{{question}}</p>
+{% for msg in get_flashed_messages() %}
+<p>{{msg}}</p>
+{% endfor %}
+{%if next >= length%}
+<form action="/end">
+    {% if choices %}
+    {% for choice in choices %}
+    <form action="/answer" method="POST">
+        <p><input type="radio" id="{{choice}}" name="answer" value="{{choice}}">
+            <label for="{{choice}}">{{choice}}</label><br>
+        </p>
+        {% else %}
+        <form action="/answer" method="POST">
+            <p><input type="radio" id="yes" name="answer" value="yes">
+                <label for="yes">Yes</label><br>
+                <input type="radio" id="no" name="answer" value="no">
+                <label for="no">No</label>
+            </p>
+
+            {% endfor %}
+            {% endif %}
+            <button>Next Question</button></a>
+        </form>
+        {%else%}
+        {% if choices %}
+        {% for choice in choices %}
+        <form action="/answer" method="POST">
+            <p><input type="radio" id="{{choice}}" name="answer" value="{{choice}}">
+                <label for="{{choice}}">{{choice}}</label><br>
+            </p>
+            {% else %}
+            <form action="/answer" method="POST">
+                <p><input type="radio" id="yes" name="answer" value="yes">
+                    <label for="yes">Yes</label><br>
+                    <input type="radio" id="no" name="answer" value="no">
+                    <label for="no">No</label>
+                </p>
+
+                {% endfor %}
+                {% endif %}
+                <button>Next Question</button></a>
+            </form>
+            {% endif %}
+            {% endblock %}
