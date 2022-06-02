@@ -12,6 +12,7 @@ responses = []
 
 @app.route('/')
 def start_survey():
+    """Shows the survey start screen"""
     survey_title = satisfaction_survey.title
     survey_instructions = satisfaction_survey.instructions
 
@@ -19,6 +20,7 @@ def start_survey():
 
 @app.route('/questions/<num>')
 def question_page(num):
+    """Shows the question screen, if the user changes the url to an invalid question, or tries to skip questions, the page will automatically redirect to the next unanswered question."""
     next_question = int(num) + 1
     length = len(satisfaction_survey.questions)
     answers = len(responses)
@@ -41,6 +43,7 @@ def question_page(num):
 
 @app.route('/answer', methods=['POST'])
 def post_answers():
+    """Route to save the answers in a responses list"""
     answer = (request.form['answer'])
     responses.append(answer)
     length = len(responses)
@@ -53,5 +56,6 @@ def post_answers():
 
 @app.route('/end')
 def end():
+    """End page for the survey"""
     return render_template('end.html')
     
