@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 from surveys import *
 
@@ -23,7 +23,7 @@ def question_page(num):
     """Shows the question screen, if the user changes the url to an invalid question, or tries to skip questions, the page will automatically redirect to the next unanswered question."""
     next_question = int(num) + 1
     length = len(satisfaction_survey.questions)
-    answers = len(responses)
+    answers = len(session['responses'])
     
     try:
         current_question = satisfaction_survey.questions[int(num)].question
@@ -38,16 +38,23 @@ def question_page(num):
     else:
         return render_template('questions.html', current_question=current_question, next=next_question, choices = choices, length = length, answers = answers)
         
-    
+@app.route('/initial-session')
+def set_initial_session():
+    """Sets the initial session for the browser"""
+    session['responses'] = []
+    return redirect('/questions/0')
 
-
-@app.route('/answer', methods=['POST'])
-def post_answers():
-    """Route to save the answers in a responses list"""
-    answer = (request.form['answer'])
-    responses.append(answer)
-    length = len(responses)
+@app.route('/handle-form-session')
+def handle_session():
+    """Return the next question and save answers to session"""
+    responses = session['responses']
+    responses.append(request.args['answer'])
+    session['responses'] = responses
+        
+    length = len(session['responses'])
     survey_question_amt = len(satisfaction_survey.questions)
+    print(length)
+    print(session['responses'])
 
     if length == survey_question_amt:
         return redirect('/end')

@@ -9,15 +9,15 @@
 <p>{{msg}}</p>
 {% endfor %}
 {%if next >= length%}
-<form action="/end">
+<form action="/handle-form-session">
     {% if choices %}
     {% for choice in choices %}
-    <form action="/answer" method="POST">
+    <form action="/handle-form-session">
         <p><input type="radio" id="{{choice}}" name="answer" value="{{choice}}">
             <label for="{{choice}}">{{choice}}</label><br>
         </p>
         {% else %}
-        <form action="/answer" method="POST">
+        <form action="/handle-form-session">
             <p><input type="radio" id="yes" name="answer" value="yes">
                 <label for="yes">Yes</label><br>
                 <input type="radio" id="no" name="answer" value="no">
@@ -31,12 +31,12 @@
         {%else%}
         {% if choices %}
         {% for choice in choices %}
-        <form action="/answer" method="POST">
+        <form action="/handle-form-session">
             <p><input type="radio" id="{{choice}}" name="answer" value="{{choice}}">
                 <label for="{{choice}}">{{choice}}</label><br>
             </p>
             {% else %}
-            <form action="/answer" method="POST">
+            <form action="/handle-form-session">
                 <p><input type="radio" id="yes" name="answer" value="yes">
                     <label for="yes">Yes</label><br>
                     <input type="radio" id="no" name="answer" value="no">

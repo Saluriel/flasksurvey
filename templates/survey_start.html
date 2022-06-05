@@ -4,6 +4,7 @@
 {% block content %}
 <h1>{{title}}</h1>
 <p>{{instructions}}</p>
-
-<a href="/questions/0"><button>Start Survey</button></a>
+<form action="/initial-session">
+    <button>Start Survey</button>
+</form>
 {% endblock %}
